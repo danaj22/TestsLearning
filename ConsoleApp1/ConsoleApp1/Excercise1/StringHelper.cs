@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1;
+﻿namespace ConsoleApp1.Excercise1;
 
 public static class StringHelper
 {

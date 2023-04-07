@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using ConsoleApp1.Excercise1;
+using FluentAssertions;
 
 namespace ConsoleApp1.Tests;
 
