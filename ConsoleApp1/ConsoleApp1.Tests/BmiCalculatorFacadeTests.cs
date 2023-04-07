@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.Tests;
+﻿using FluentAssertions;
+
+namespace ConsoleApp1.Tests;
 
 public class BmiCalculatorFacadeTests
 {
@@ -23,5 +25,27 @@ public class BmiCalculatorFacadeTests
 
         Assert.Equal(bmiResult, result.Bmi);
         Assert.Equal(bmiClassification, result.BmiClassification);
+    }
+    
+    [Theory]
+    [InlineData(UnitSystem.Metric, 40.0, 170.0, 13.84, BmiClassification.Underweight)]
+    [InlineData(UnitSystem.Metric, 60.0, 170.0, 20.76, BmiClassification.Normal)]
+    [InlineData(UnitSystem.Metric, 80.0, 170.0, 27.68, BmiClassification.Overweight)]
+    [InlineData(UnitSystem.Metric, 100.0, 170.0, 34.6, BmiClassification.Obesity)]
+    [InlineData(UnitSystem.Metric, 0.1, 0.1, 100000, BmiClassification.ExtremeObesity)]
+    public void GetResult_ForValidInput_ReturnsCorrectResult_Fluent(UnitSystem unitSystem, double weight, double height,
+        double bmiResult, BmiClassification bmiClassification)
+    {
+        // arrange
+
+        var bmiCalculatorFacade = new BmiCalculatorFacade(unitSystem, new BmiDeterminator());
+
+        // act
+
+        var result = bmiCalculatorFacade.GetResult(weight, height);
+
+        // assert
+        result.Bmi.Should().Be(bmiResult);
+        result.BmiClassification.Should().Be(bmiClassification);
     }
 }
